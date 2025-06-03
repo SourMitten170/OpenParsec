@@ -19,10 +19,8 @@ jobs:
       with:
         ruby-version: 3.1
 
-    - name: Install Bundler & Fastlane
-      run: |
-        gem install bundler
-        gem install fastlane
+    - name: Install Fastlane
+      run: gem install fastlane
 
     - name: Set up Fastlane Fastfile
       run: |
@@ -42,7 +40,7 @@ jobs:
     - name: Build IPA
       run: fastlane build
 
-    - name: Upload IPA to GitHub Release
+    - name: Upload IPA to Release
       uses: ncipollo/release-action@v1
       with:
         artifacts: "output/OpenParsec.ipa"
