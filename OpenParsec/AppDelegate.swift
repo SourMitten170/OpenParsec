@@ -1,14 +1,29 @@
 import UIKit
+import GameController
 
 @main
 class AppDelegate:UIResponder, UIApplicationDelegate
 {
-	func application(_ application:UIApplication, didFinishLaunchingWithOptions launchOptions:[UIApplication.LaunchOptionsKey: Any]?) -> Bool
-	{
-		// Override point for customization after application launch.
-		UTMViewControllerPatches.patchAll()
-		return true
-	}
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+    UTMViewControllerPatches.patchAll()
+
+    // Start controller discovery
+    GCController.startWirelessControllerDiscovery(completionHandler: nil)
+
+    // Log connected controllers
+    NotificationCenter.default.addObserver(
+        forName: .GCControllerDidConnect,
+        object: nil,
+        queue: .main
+    ) { notification in
+        if let controller = notification.object as? GCController {
+            print("🎮 Controller connected: \(controller.vendorName ?? "Unknown")")
+        }
+    }
+
+    return true
+}
 
 	func application(_ application:UIApplication, configurationForConnecting connectingSceneSession:UISceneSession, options:UIScene.ConnectionOptions) -> UISceneConfiguration
 	{
